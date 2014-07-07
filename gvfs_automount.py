@@ -13,6 +13,8 @@ import sys
 
 from gi.repository import Gio
 from gi.repository import GObject
+from gi.repository import Notify
+
 from pprint import pprint
 
 __author__  = 'Laurence Gonsalves <laurence@xenomachina.com>'
@@ -41,6 +43,18 @@ def on_volume_mounted(volume, async_result, mount_op):
         print("MOUNTED VOLUME")
         print_volume_identifiers(volume)
 
+        label = volume.get_identifier('label')
+        label = "Unlabeled volume" if label is None else repr(label)
+        mount_path = volume.get_mount().get_root().get_path()
+
+        notification = Notify.Notification.new(
+                "Volume mounted",
+                "%s mounted at %s" % (label, mount_path),
+                "dialog-information")
+        # TODO: get icon from volume?
+        # TODO: is it possible to respond to clicks on notification?
+        notification.show ()
+
 
 class UserError(Exception):
     def __init__(self, message):
@@ -53,6 +67,7 @@ def create_parser():
     return parser
 
 def main(args):
+    Notify.init ("gvfs-automount")
     vm = Gio.VolumeMonitor.get()
     connections = []
     connections.append(vm.connect("volume-added", on_volume_added, None))
