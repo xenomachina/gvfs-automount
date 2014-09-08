@@ -49,7 +49,7 @@ def on_volume_mounted(volume, async_result, mount_op):
                 "dialog-information")
         # TODO: get icon from volume?
         # TODO: is it possible to respond to clicks on notification?
-        notification.show ()
+        notification.show()
 
 
 class UserError(Exception):
