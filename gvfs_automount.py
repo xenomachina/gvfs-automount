@@ -19,10 +19,6 @@ from pprint import pprint
 
 __author__  = 'Laurence Gonsalves <laurence@xenomachina.com>'
 
-def dump_to_stdout(*args, **kwargs):
-    pprint({"Args": args})
-    pprint({"KWArgs": kwargs})
-
 def print_volume_identifiers(volume):
     for identifier in volume.enumerate_identifiers():
         print("    %s: %r" % (identifier, volume.get_identifier(identifier)))
