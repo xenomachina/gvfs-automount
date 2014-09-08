@@ -39,9 +39,9 @@ def on_volume_mounted(volume, async_result, mount_op):
         print("MOUNTED VOLUME")
         print_volume_identifiers(volume)
 
-        label = volume.get_identifier('label')
-        label = "Unlabeled volume" if label is None else repr(label)
-        mount_path = volume.get_mount().get_root().get_path()
+        mount = volume.get_mount()
+        label = mount.get_name()
+        mount_path = mount.get_root().get_path()
 
         notification = Notify.Notification.new(
                 "Volume mounted",
